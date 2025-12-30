@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: gvtc-feip-db
+    environment:
+      POSTGRES_DB: feip
+      POSTGRES_USER: feip
+      POSTGRES_PASSWORD: feip
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U feip"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: gvtc-feip-backend
+    environment:
+      DATABASE_URL: postgresql://feip:feip@db:5432/feip
+      SECRET_KEY: gvtc-fiber-expansion-secret-key-change-in-production
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build: ./frontend
+    container_name: gvtc-feip-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  # Development frontend (with hot reload)
+  frontend-dev:
+    image: node:20-alpine
+    container_name: gvtc-feip-frontend-dev
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - backend
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
+  uploads:
