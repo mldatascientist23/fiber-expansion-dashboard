@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Leaflet customizations */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.custom-marker-cluster {
+  background-color: rgba(0, 90, 156, 0.6);
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Tier badge styles */
+.tier-1 {
+  @apply bg-green-500 text-white;
+}
+
+.tier-2 {
+  @apply bg-amber-500 text-white;
+}
+
+.tier-3 {
+  @apply bg-red-500 text-white;
+}
+
+/* Property type badges */
+.badge-mdu {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.badge-subdivision {
+  @apply bg-purple-100 text-purple-800;
+}
+
+/* Status badges */
+.status-prospect {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.status-contacted {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.status-negotiation {
+  @apply bg-amber-100 text-amber-800;
+}
+
+.status-committed {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-construction {
+  @apply bg-indigo-100 text-indigo-800;
+}
+
+.status-completed {
+  @apply bg-emerald-100 text-emerald-800;
+}
