@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..auth import get_current_user, require_analyst
-from ..models.models import Property, PropertyCost, User
+from ..models.models import Property, PropertyCost, User, PropertyType
 from ..schemas import PropertyCostCreate, PropertyCostUpdate, PropertyCostOut
 
 router = APIRouter(prefix="/costs", tags=["Costs"])
@@ -22,8 +22,8 @@ def calculate_derived_costs(cost: PropertyCost, prop: Property) -> PropertyCost:
         (cost.equipment_cost or 0)
     )
     
-    # Cost per unit/lot
-    unit_count = prop.units if prop.property_type.value == "MDU" else prop.lots
+    # Cost per unit/lot - use enum directly for type-safe comparison
+    unit_count = prop.units if prop.property_type == PropertyType.MDU else prop.lots
     if unit_count and unit_count > 0:
         cost.cost_per_unit = cost.total_capex / unit_count
     else:

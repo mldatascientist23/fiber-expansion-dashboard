@@ -34,10 +34,16 @@ DEFAULT_WEIGHTS = {
 }
 
 
+# Minimum score for unknown values - used when property data is incomplete
+# This provides a baseline score that doesn't heavily penalize missing data
+# while still encouraging complete property information
+MIN_UNKNOWN_SCORE = 35
+
+
 def calculate_scale_points_mdu(units: Optional[int]) -> float:
     """Calculate scale points for MDU based on unit count."""
     if not units:
-        return 35  # Minimum score if unknown
+        return MIN_UNKNOWN_SCORE  # Minimum score if unknown
     if units >= 400:
         return 100
     if units >= 250:
@@ -46,13 +52,13 @@ def calculate_scale_points_mdu(units: Optional[int]) -> float:
         return 70
     if units >= 75:
         return 55
-    return 35
+    return MIN_UNKNOWN_SCORE
 
 
 def calculate_scale_points_sfu(lots: Optional[int]) -> float:
     """Calculate scale points for Subdivision based on lot count."""
     if not lots:
-        return 35  # Minimum score if unknown
+        return MIN_UNKNOWN_SCORE  # Minimum score if unknown
     if lots >= 1000:
         return 100
     if lots >= 600:
@@ -61,7 +67,7 @@ def calculate_scale_points_sfu(lots: Optional[int]) -> float:
         return 70
     if lots >= 150:
         return 55
-    return 35
+    return MIN_UNKNOWN_SCORE
 
 
 def calculate_fiber_proximity_points(distance_miles: Optional[float]) -> float:

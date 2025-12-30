@@ -218,7 +218,7 @@ export default function PropertyList() {
                 <option value="">All Tiers</option>
                 <option value="1">Tier 1 (75+)</option>
                 <option value="2">Tier 2 (50-74)</option>
-                <option value="3">Tier 3 (&lt;50)</option>
+                <option value="3">{"Tier 3 (<50)"}</option>
               </select>
             </div>
           </div>
